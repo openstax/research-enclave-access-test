@@ -8,10 +8,16 @@ Created on Sat Nov 20 13:21:09 2021
 
 import pandas as pd
 import matplotlib.pyplot as plt
+
+print("getting datafile")
 try:
     smpl_df = pd.read_csv("/data/highlights_data_sample.csv")
+    print("in docker")
+    in_docker = True
 except FileNotFoundError:
     smpl_df = pd.read_csv("./data/highlights_data_sample.csv")
+    print("local")
+    in_docker = False
 
 
 top_10 = smpl_df.head(10)
@@ -29,4 +35,7 @@ plt.title("Highlight Frequency vs Color")
 plt.xlabel("Color")
 plt.ylabel("Frequency")
 # plt.grid(True)
-plt.show()
+if in_docker:
+    plt.savefig('/data/highlights_test.png')
+else:
+    plt.show()
